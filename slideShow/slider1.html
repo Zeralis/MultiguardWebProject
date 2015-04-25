@@ -1,0 +1,80 @@
+<html>
+<head>
+	<title>Slider 1</title>
+
+	<style>
+	#slideshow{
+		width: 500px;
+		height: 300px;
+		margin: auto;
+		border: 1px solid rgb(150, 150, 150);	
+		position: relative;	
+	}
+	#slideshow img{
+		position: absolute;
+	}
+	</style>
+</head>
+<body>
+
+<section id="slideshow">
+	<section id="slideshowbilde"></section>
+</section>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<script>
+$(function(){
+
+	//JSON-database
+	var bilderJSON = {bilder: [
+		{"src": "diego-latorre.jpg", "tittel": "Diego L"},
+		{"src": "ectomachine.jpg", "tittel": "Ectomachine"},
+		{"src": "foehn.jpg", "tittel": "Foehn"},
+		{"src": "hugs-for-monsters.jpg", "tittel": "Hugs for monsters"}
+	]};
+
+	//variabel
+	var bildeIndex = 0;
+
+	function settEvents(){
+		setInterval(visNesteBilde, 2000);
+	}
+
+	function visNesteBilde(){
+		if(bildeIndex < bilderJSON.bilder.length - 1){
+			bildeIndex++;
+			settBilde();
+		}else{
+			bildeIndex = 0;
+			settBilde();
+		}
+	}
+
+	function visForrigeBilde(){
+		if(bildeIndex>0){
+			bildeIndex--;
+			settBilde();
+		}
+	}
+
+	function settBilde(){
+		//fade ut gamle bilde
+		$("#slideshowbilde img").fadeOut(700, function(){
+			$(this).remove();
+		});
+
+		var $nyttBilde = $("<img>");
+		$nyttBilde.attr("src", bilderJSON.bilder[bildeIndex].src);
+
+		$("#slideshowbilde").prepend($nyttBilde);
+	}
+
+	var init = function(){
+		settEvents();
+		settBilde();
+	}();
+});
+</script>
+</body>
+</html>
